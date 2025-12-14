@@ -24,6 +24,9 @@ function CaseDashboard() {
   // routing for actions
   const navigate = useNavigate();
 
+  // Determine read-only mode via route state (set by SubmissionSuccess close action)
+  const readOnly = !!(window.history.state && window.history.state.usr && window.history.state.usr.readOnly);
+
   // Status banner (dismissible)
   const [showStatus, setShowStatus] = useState(true);
 
@@ -63,35 +66,35 @@ function CaseDashboard() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               <div>
                 <label>Full Name</label>
-                <input className="input" placeholder="Enter full legal name" />
+                <input className="input" placeholder="Enter full legal name" disabled={readOnly} />
               </div>
               <div>
                 <label>Preferred Name</label>
-                <input className="input" placeholder="Nickname or preferred name" />
+                <input className="input" placeholder="Nickname or preferred name" disabled={readOnly} />
               </div>
               <div>
                 <label>Date of Birth</label>
-                <input className="input" placeholder="YYYY-MM-DD" />
+                <input className="input" placeholder="YYYY-MM-DD" disabled={readOnly} />
               </div>
               <div>
                 <label>Date of Passing</label>
-                <input className="input" placeholder="YYYY-MM-DD" />
+                <input className="input" placeholder="YYYY-MM-DD" disabled={readOnly} />
               </div>
               <div>
                 <label>Place of Birth</label>
-                <input className="input" placeholder="City, State/Province, Country" />
+                <input className="input" placeholder="City, State/Province, Country" disabled={readOnly} />
               </div>
               <div>
                 <label>Place of Passing</label>
-                <input className="input" placeholder="City, State/Province, Country" />
+                <input className="input" placeholder="City, State/Province, Country" disabled={readOnly} />
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
                 <label>Occupation / Notable Roles</label>
-                <input className="input" placeholder="Primary occupation or notable roles" />
+                <input className="input" placeholder="Primary occupation or notable roles" disabled={readOnly} />
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
                 <label>Key Biographical Highlights</label>
-                <textarea className="textarea" rows={4} placeholder="Education, service, achievements, community contributions" />
+                <textarea className="textarea" rows={4} placeholder="Education, service, achievements, community contributions" disabled={readOnly} />
               </div>
             </div>
           </>
@@ -102,23 +105,23 @@ function CaseDashboard() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               <div>
                 <label>Service Location</label>
-                <input className="input" placeholder="Chapel or venue name" />
+                <input className="input" placeholder="Chapel or venue name" disabled={readOnly} />
               </div>
               <div>
                 <label>Service Date & Time</label>
-                <input className="input" placeholder="YYYY-MM-DD HH:mm" />
+                <input className="input" placeholder="YYYY-MM-DD HH:mm" disabled={readOnly} />
               </div>
               <div>
                 <label>Visitation Details</label>
-                <input className="input" placeholder="Date, time, and location for visitation" />
+                <input className="input" placeholder="Date, time, and location for visitation" disabled={readOnly} />
               </div>
               <div>
                 <label>Officiant</label>
-                <input className="input" placeholder="Name and title" />
+                <input className="input" placeholder="Name and title" disabled={readOnly} />
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
                 <label>Special Requests</label>
-                <textarea className="textarea" rows={3} placeholder="Music, readings, customs, or other preferences" />
+                <textarea className="textarea" rows={3} placeholder="Music, readings, customs, or other preferences" disabled={readOnly} />
               </div>
             </div>
           </>
@@ -129,23 +132,23 @@ function CaseDashboard() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               <div>
                 <label>Primary Contact Name</label>
-                <input className="input" placeholder="Full name of primary contact" />
+                <input className="input" placeholder="Full name of primary contact" disabled={readOnly} />
               </div>
               <div>
                 <label>Relationship</label>
-                <input className="input" placeholder="Relationship to the deceased" />
+                <input className="input" placeholder="Relationship to the deceased" disabled={readOnly} />
               </div>
               <div>
                 <label>Phone</label>
-                <input className="input" placeholder="(555) 555-5555" />
+                <input className="input" placeholder="(555) 555-5555" disabled={readOnly} />
               </div>
               <div>
                 <label>Email</label>
-                <input className="input" placeholder="name@example.com" />
+                <input className="input" placeholder="name@example.com" disabled={readOnly} />
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
                 <label>Additional Contacts</label>
-                <textarea className="textarea" rows={3} placeholder="List other contacts and relationships" />
+                <textarea className="textarea" rows={3} placeholder="List other contacts and relationships" disabled={readOnly} />
               </div>
             </div>
           </>
@@ -159,6 +162,7 @@ function CaseDashboard() {
                 className="textarea"
                 rows={8}
                 placeholder="Key stories, personal values, legacy themes, and family-provided notes"
+                disabled={readOnly}
               />
             </div>
           </>
@@ -174,6 +178,7 @@ function CaseDashboard() {
               className="textarea"
               rows={12}
               placeholder="Transcript content will appear here for review..."
+              disabled={readOnly}
             />
           </>
         );
@@ -215,14 +220,16 @@ function CaseDashboard() {
           }}
         >
           <div style={{ fontWeight: 600, color: 'var(--color-text)' }}>
-            Processing complete. Review the extracted information below.
+            {readOnly ? 'Read-only view. Editing is disabled.' : 'Processing complete. Review the extracted information below.'}
           </div>
           <button
             className="btn ghost"
-            onClick={() => setShowStatus(false)}
+            onClick={() => !readOnly && setShowStatus(false)}
             style={{ marginLeft: 'auto', padding: '6px 10px' }}
             aria-label="Dismiss status"
-            title="Dismiss"
+            title={readOnly ? 'Read-only mode' : 'Dismiss'}
+            disabled={readOnly}
+            aria-disabled={readOnly}
           >
             Dismiss
           </button>
@@ -262,10 +269,13 @@ function CaseDashboard() {
               </div>
               <button
                 className="btn ghost"
-                onClick={() => setAiOpen((v) => !v)}
+                onClick={() => { if (!readOnly) setAiOpen((v) => !v); }}
                 aria-expanded={aiOpen}
                 aria-controls="ai-assist-sections"
                 style={{ padding: '6px 10px' }}
+                disabled={readOnly}
+                aria-disabled={readOnly}
+                title={readOnly ? 'Read-only mode' : undefined}
               >
                 {aiOpen ? 'Collapse' : 'Expand'}
               </button>
@@ -322,16 +332,18 @@ function CaseDashboard() {
                 }}
               >
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  <button className="btn ghost" onClick={() => copyToClipboard(obitDraft)}>Copy</button>
+                  <button className="btn ghost" onClick={() => copyToClipboard(obitDraft)} disabled={readOnly} aria-disabled={readOnly} title={readOnly ? 'Read-only mode' : undefined}>Copy</button>
                   <button
                     className="btn secondary"
-                    onClick={() => {/* Placeholder for opening in Word */}}
-                    title="Open in Microsoft Word"
+                    onClick={() => { if (!readOnly) {/* Placeholder for opening in Word */} }}
+                    title={readOnly ? 'Read-only mode' : 'Open in Microsoft Word'}
                     aria-label="Edit in Word"
+                    disabled={readOnly}
+                    aria-disabled={readOnly}
                   >
                     Edit in Word
                   </button>
-                  <button className="btn ghost" onClick={() => setObitDraft(obitDraft + '\n\n[Regenerated variation…]')}>
+                  <button className="btn ghost" onClick={() => !readOnly && setObitDraft(obitDraft + '\n\n[Regenerated variation…]')} disabled={readOnly} aria-disabled={readOnly} title={readOnly ? 'Read-only mode' : undefined}>
                     Regenerate
                   </button>
                 </div>
@@ -387,8 +399,8 @@ function CaseDashboard() {
                 <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.5 }}>{emailDraft}</div>
               </div>
               <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
-                <button className="btn ghost" onClick={() => copyToClipboard(emailDraft)}>Copy</button>
-                <button className="btn ghost" onClick={() => setEmailDraft(emailDraft + '\n\n[Edited…]')}>Edit</button>
+                <button className="btn ghost" onClick={() => copyToClipboard(emailDraft)} disabled={readOnly} aria-disabled={readOnly} title={readOnly ? 'Read-only mode' : undefined}>Copy</button>
+                <button className="btn ghost" onClick={() => !readOnly && setEmailDraft(emailDraft + '\n\n[Edited…]')} disabled={readOnly} aria-disabled={readOnly} title={readOnly ? 'Read-only mode' : undefined}>Edit</button>
               </div>
               <div className="helper">You can copy this email or edit before sending from your email client.</div>
             </div>
@@ -397,10 +409,10 @@ function CaseDashboard() {
             <div className="card panel ai-assist-card" id="compliance">
               <div className="panel-title">Compliance Checklist</div>
               <div style={{ display: 'grid', gap: 8 }}>
-                <label><input type="checkbox" /> Consent obtained from family</label>
-                <label><input type="checkbox" /> Sensitive details reviewed</label>
-                <label><input type="checkbox" /> Dates and names verified</label>
-                <label><input type="checkbox" /> Internal review completed</label>
+                <label><input type="checkbox" disabled={readOnly} /> Consent obtained from family</label>
+                <label><input type="checkbox" disabled={readOnly} /> Sensitive details reviewed</label>
+                <label><input type="checkbox" disabled={readOnly} /> Dates and names verified</label>
+                <label><input type="checkbox" disabled={readOnly} /> Internal review completed</label>
               </div>
               <div className="helper" style={{ marginTop: 8 }}>
                 Please complete all items prior to final submission.
@@ -411,46 +423,48 @@ function CaseDashboard() {
       </div>
 
       {/* Sticky bottom action bar */}
-      <div
-        role="toolbar"
-        aria-label="Case actions"
-        style={{
-          position: 'fixed',
-          left: 280, /* width of sidebar */
-          right: 0,
-          bottom: 0,
-          background: 'rgba(255,255,255,0.96)',
-          backdropFilter: 'saturate(120%) blur(2px)',
-          borderTop: '1px solid var(--border-color)',
-          padding: '10px 16px',
-          zIndex: 20
-        }}
-      >
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', alignItems: 'center', gap: 12 }}>
-          {/* Left aligned - Start New Case */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <button className="btn ghost" onClick={() => navigate('/upload')}>Start New Case</button>
+      {!readOnly && (
+        <div
+          role="toolbar"
+          aria-label="Case actions"
+          style={{
+            position: 'fixed',
+            left: 280, /* width of sidebar */
+            right: 0,
+            bottom: 0,
+            background: 'rgba(255,255,255,0.96)',
+            backdropFilter: 'saturate(120%) blur(2px)',
+            borderTop: '1px solid var(--border-color)',
+            padding: '10px 16px',
+            zIndex: 20
+          }}
+        >
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', alignItems: 'center', gap: 12 }}>
+            {/* Left aligned - Start New Case */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <button className="btn ghost" onClick={() => navigate('/upload')}>Start New Case</button>
+              </div>
+              <div className="helper">Begin a fresh upload without leaving your current work saved.</div>
             </div>
-            <div className="helper">Begin a fresh upload without leaving your current work saved.</div>
-          </div>
 
-          {/* Center - Export Summary */}
-          <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
-            <button className="btn ghost" onClick={() => {/* Placeholder for export summary */}}>Export Summary</button>
-            <div className="helper">Download a concise overview for internal review.</div>
-          </div>
+            {/* Center - Export Summary */}
+            <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
+              <button className="btn ghost" onClick={() => {/* Placeholder for export summary */}}>Export Summary</button>
+              <div className="helper">Download a concise overview for internal review.</div>
+            </div>
 
-          {/* Right aligned - Submit Case */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end' }}>
-            <button className="btn" onClick={handleSubmitCase}>Submit Case</button>
-            <div className="helper" style={{ textAlign: 'right' }}>
-              Submitting sends finalized details to your funeral home system.
-              <div style={{ fontSize: 12, color: 'var(--color-muted)' }}>Confirmation shown after successful submission.</div>
+            {/* Right aligned - Submit Case */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end' }}>
+              <button className="btn" onClick={handleSubmitCase}>Submit Case</button>
+              <div className="helper" style={{ textAlign: 'right' }}>
+                Submitting sends finalized details to your funeral home system.
+                <div style={{ fontSize: 12, color: 'var(--color-muted)' }}>Confirmation shown after successful submission.</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

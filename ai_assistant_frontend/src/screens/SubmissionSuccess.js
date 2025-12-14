@@ -1,37 +1,80 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/theme.css';
+import './SubmissionSuccessModal.css';
 
 /**
  * PUBLIC_INTERFACE
  * SubmissionSuccess
- * Displays a success confirmation with primary action to "View in Funeral Home System",
- * and secondary actions to View Case (dashboard) or Start New Upload.
+ * Shows a centered modal dialog confirming case creation.
+ * Behavior:
+ *  - Close icon routes to Case Dashboard in read-only state.
+ *  - "View in Passare" opens an external URL in a new tab (placeholder).
+ *  - "Start New Case" routes to Upload Recording (resets workflow).
+ *  - Overlay is not clickable to close to avoid accidental dismiss.
  */
 function SubmissionSuccess() {
   const navigate = useNavigate();
 
-  return (
-    <div style={{ maxWidth: 720, margin: '0 auto' }}>
-      <div className="card panel" style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 48, lineHeight: 1 }}>✅</div>
-        <h2 style={{ marginTop: 8, color: 'var(--color-success)' }}>Submission Successful</h2>
-        <p className="helper">
-          Your case has been submitted to the funeral home system. You may proceed to view it in your system or return to review.
-        </p>
+  // Simulated case details; in real use, pass via state or fetch
+  const caseNumber = 'Case FH 2025 6422';
+  const caseName = 'Eleanor May Thompson';
 
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginTop: 12, flexWrap: 'wrap' }}>
-          <button
-            className="btn"
-            onClick={() => {
-              // Placeholder: would open external system link if available
-              navigate('/dashboard');
-            }}
-          >
-            View in Funeral Home System
+  // Close icon -> Dashboard read-only state
+  const handleClose = useCallback(() => {
+    navigate('/dashboard', { replace: true, state: { readOnly: true } });
+  }, [navigate]);
+
+  // View external system in new tab
+  const handleViewExternal = useCallback(() => {
+    const url = 'https://example.com/passare/case/placeholder'; // placeholder URL
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }, []);
+
+  // Start a new case
+  const handleStartNew = useCallback(() => {
+    navigate('/upload', { replace: true });
+  }, [navigate]);
+
+  // Prevent overlay click from closing
+  const stop = (e) => e.stopPropagation();
+
+  // Paper-plane icon in success green (accessible)
+  const PlaneIcon = () => (
+    <div className="success-icon" aria-hidden="true">
+      ✈️
+    </div>
+  );
+
+  return (
+    <div className="success-overlay" aria-modal="true" role="dialog" aria-labelledby="success-title" onClick={(e) => { /* do not close on background */ }}>
+      <div className="success-modal" onClick={stop}>
+        <button className="success-close" onClick={handleClose} aria-label="Close and return to Case Dashboard (read-only)">
+          ✕
+        </button>
+
+        <PlaneIcon />
+
+        <div id="success-title" className="success-title">Case Created Successfully</div>
+        <div className="success-helper">Your case has been submitted. You can review it in Passare or begin a new case.</div>
+
+        <div className="success-case" aria-label="Case identifiers">
+          <div className="label">Case Number</div>
+          <div className="value">{caseNumber}</div>
+          <div className="subtext">Case Name — {caseName}</div>
+        </div>
+
+        <div className="success-actions">
+          <button className="btn secondary" onClick={handleViewExternal}>
+            View in Passare
           </button>
-          <button className="btn ghost" onClick={() => navigate('/dashboard')}>View Case</button>
-          <button className="btn secondary" onClick={() => navigate('/upload')}>Start New Upload</button>
+          <button className="btn success" onClick={handleStartNew}>
+            Start New Case
+          </button>
+        </div>
+
+        <div className="success-footer-note">
+          You can always find this case in your dashboard.
         </div>
       </div>
     </div>
