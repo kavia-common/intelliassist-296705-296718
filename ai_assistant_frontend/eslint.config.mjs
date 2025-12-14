@@ -18,9 +18,7 @@ export default [
       }
     },
     rules: {
-
-     'no-unused-vars': ['error', { varsIgnorePattern: 'React|App' }]
-
+      'no-unused-vars': ['error', { varsIgnorePattern: 'React|App' }]
     }
   },
   pluginJs.configs.recommended,
@@ -29,7 +27,13 @@ export default [
     rules: {
       "react/react-in-jsx-scope": "off",
       "react/jsx-uses-react": "off",
-      "react/jsx-uses-vars": "error"
+      "react/jsx-uses-vars": "error",
+      "react/prop-types": "off"
+    },
+    settings: {
+      react: {
+        version: "detect"
+      }
     }
   }
 ]

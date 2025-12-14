@@ -1,48 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import './index.css';
 import './App.css';
+import { ProcessingProvider } from './context/ProcessingContext';
+import SidebarLayout from './components/Layout/SidebarLayout';
+import UploadRecording from './screens/UploadRecording';
+import Processing from './screens/Processing';
+import CaseDashboard from './screens/CaseDashboard';
+import FinalReview from './screens/FinalReview';
+import SubmissionSuccess from './screens/SubmissionSuccess';
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * App
+ * Root component that configures routing and wraps the application with ProcessingProvider.
+ * Routes:
+ *  - /upload: Upload Recording screen
+ *  - /processing: Processing screen (auto-advances to /dashboard)
+ *  - /dashboard: Case Dashboard screen
+ *  - /final-review: Final Review screen
+ *  - /success: Submission Success screen
+ *  - / -> redirects to /upload
+ */
 function App() {
-  const [theme, setTheme] = useState('light');
-
-  // Effect to apply theme to document element
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
-
-  // PUBLIC_INTERFACE
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <button 
-          className="theme-toggle" 
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        >
-          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-        </button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Current theme: <strong>{theme}</strong>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ProcessingProvider>
+      <BrowserRouter>
+        <SidebarLayout>
+          <Routes>
+            <Route path="/" element={<Navigate to="/upload" replace />} />
+            <Route path="/upload" element={<UploadRecording />} />
+            <Route path="/processing" element={<Processing />} />
+            <Route path="/dashboard" element={<CaseDashboard />} />
+            <Route path="/final-review" element={<FinalReview />} />
+            <Route path="/success" element={<SubmissionSuccess />} />
+            <Route path="*" element={<Navigate to="/upload" replace />} />
+          </Routes>
+        </SidebarLayout>
+      </BrowserRouter>
+    </ProcessingProvider>
   );
 }
 
