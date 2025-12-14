@@ -192,9 +192,15 @@ a {
   box-shadow: var(--shadow-sm);
 }
 
-/* Responsive: collapse AI section by default on narrow viewports */
+/* Sticky bottom bar adjustments for mobile */
 @media (max-width: 980px) {
   .grid-2-7030 {
     grid-template-columns: 1fr; /* stack */
+  }
+}
+/* In smaller screens, sticky bar should be full width (no sidebar offset) */
+@media (max-width: 860px) {
+  .app-shell {
+    grid-template-columns: 1fr; /* hide sidebar space in narrow layout */
   }
 }
