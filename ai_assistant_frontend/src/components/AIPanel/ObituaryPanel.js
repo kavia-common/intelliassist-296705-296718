@@ -137,34 +137,20 @@ function ObituaryPanel() {
       </div>
 
       <div style={headingStyle}>Sample Obituary Draft</div>
-      <div style={subtextStyle}>This draft reflects details commonly shared by families. Please review and edit as needed.</div>
+      <div style={subtextStyle}>This draft reflects details commonly shared during arrangement meetings and is intended for demonstration purposes only.</div>
 
       <div role="region" aria-label="AI obituary content" style={contentRegionStyle}>
-        <p style={pStyle}>Johnathan “John” A. Doe, 78, of Oceanside, passed away peacefully on March 3, 2025.</p>
         <p style={pStyle}>
-          Born on July 12, 1946 in Portland, John dedicated his life to family, service, and community. He was a loving
-          husband, devoted father, and proud grandfather who found joy in the simple things—sunrise walks along the shore,
-          tinkering in the garage, and cheering on his children and grandchildren in all they pursued.
+          [Full Name], [Age], of [City/Community], passed away on [Date of Passing]. Born on [Date of Birth] in [Place of Birth], [First Name] will be remembered for [positive personal qualities or values], [relationships to family], and [notable passions or contributions].
         </p>
         <p style={pStyle}>
-          John served honorably in the U.S. Navy and later spent over 30 years working as an engineer, where he was known
-          for his steady leadership, practical wisdom, and a kind humor that made colleagues feel like family. He volunteered
-          with local veterans’ groups, mentored young tradespeople, and believed deeply in doing the right thing—quietly and
-          consistently.
+          [First Name] is survived by [list immediate family and close loved ones, with relationships]. [He/She/They] was preceded in death by [names and relationships, if applicable]. [First Name]’s life was marked by [brief highlights—career, service, community, faith, or personal milestones], and [he/she/they] will be dearly missed by all who knew [him/her/them].
         </p>
         <p style={pStyle}>
-          He is survived by his wife, Mary; his children, Daniel (Claire) and Amy (Thomas); and his grandchildren, Noah and
-          Elise, who brought him immeasurable joy. He is also survived by his sister, Carol, and many extended family members
-          and friends who will miss him dearly.
+          A [service type] will be held on [service date] at [time] at [location], with [visitation/gathering] beginning at [time, if applicable]. In lieu of flowers, the family invites memorial contributions to [charity or cause], or a charity of your choice, in honor of [First Name]’s [value or passion].
         </p>
         <p style={pStyle}>
-          A celebration of John’s life will be held on Saturday, March 15, 2025 at 11:00 a.m. at Oceanside Chapel, with
-          visitation one hour prior. In lieu of flowers, the family suggests donations to the Oceanside Veterans Fund or a
-          charity of your choice.
-        </p>
-        <p style={pStyle}>
-          John will be remembered for his gentle strength, hardworking spirit, and unwavering love for his family. His
-          legacy lives on in those he quietly encouraged, faithfully served, and dearly loved.
+          The family extends heartfelt thanks to [care team, community, or organization] for their support and care. [First Name] will be remembered for [signature trait or legacy], and [his/her/their] memory will continue to inspire those [he/she/they] loved.
         </p>
       </div>
 
@@ -175,7 +161,7 @@ function ObituaryPanel() {
       </div>
 
       <div style={disclaimerStyle}>
-        AI content is provided as a helpful draft. Please review for accuracy, tone, and family preferences before publishing.
+        AI generated content is a draft for review only and does not represent final published material.
       </div>
     </section>
   )
