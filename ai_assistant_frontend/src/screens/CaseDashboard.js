@@ -241,7 +241,10 @@ function CaseDashboard() {
       <div className="grid-2-7030">
         {/* Left Column */}
         <section className="card panel" aria-label="Case Details">
-          <div className="panel-title">Case Dashboard</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+            <div className="panel-title" style={{ marginBottom: 0 }}>Case Dashboard</div>
+            <button className="btn ghost" onClick={() => navigate('/processing')}>Processing</button>
+          </div>
           <div className="tabs">
             {tabs.map((t) => (
               <button

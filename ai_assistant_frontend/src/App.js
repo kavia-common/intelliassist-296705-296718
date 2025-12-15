@@ -5,7 +5,7 @@ import './App.css';
 import { ProcessingProvider } from './context/ProcessingContext';
 import SidebarLayout from './components/Layout/SidebarLayout';
 import UploadRecording from './screens/UploadRecording';
-import Processing from './screens/Processing';
+import RecordingProcessing from './screens/RecordingProcessing';
 import CaseDashboard from './screens/CaseDashboard';
 import FinalReview from './screens/FinalReview';
 import SubmissionSuccess from './screens/SubmissionSuccess';
@@ -30,7 +30,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/upload" replace />} />
             <Route path="/upload" element={<UploadRecording />} />
-            <Route path="/processing" element={<Processing />} />
+            <Route path="/processing" element={<RecordingProcessing />} />
             <Route path="/dashboard" element={<CaseDashboard />} />
             <Route path="/ai-obituary" element={
               <div style={{ maxWidth: 920, margin: '0 auto' }}>
