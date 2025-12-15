@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/theme.css';
+import ObituaryPanel from '../components/AIPanel/ObituaryPanel';
 
 /**
  * PUBLIC_INTERFACE
@@ -283,75 +284,8 @@ function CaseDashboard() {
           </div>
 
           <div id="ai-assist-sections" style={{ display: aiOpen ? 'grid' : 'none', gap: 12 }}>
-            {/* AI Generated Obituary with scrollable body and fixed actions */}
-            <div className="card panel ai-assist-card" id="ai-draft" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'space-between' }}>
-                <div className="panel-title" style={{ marginBottom: 0 }}>
-                  AI Generated Obituary
-                  <span className="badge" style={{
-                    marginLeft: 8,
-                    padding: '2px 8px',
-                    borderRadius: 999,
-                    background: 'rgba(5,150,105,0.12)',
-                    border: '1px solid rgba(5,150,105,0.35)',
-                    color: 'var(--color-success)',
-                    fontWeight: 700,
-                    fontSize: 12
-                  }}>New</span>
-                </div>
-                <div className="helper" aria-hidden="true" />
-              </div>
-
-              {/* Scrollable content area */}
-              <div
-                role="region"
-                aria-label="AI Obituary content"
-                className="ai-scroll"
-                style={{
-                  maxHeight: 180,
-                  overflow: 'auto',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: 8,
-                  padding: 10,
-                  background: '#fff'
-                }}
-              >
-                <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.5 }}>{obitDraft}</div>
-              </div>
-
-              {/* Fixed action bar below AI content (does not scroll with text) */}
-              <div
-                className="ai-fixed-actions"
-                style={{
-                  display: 'flex',
-                  gap: 8,
-                  flexWrap: 'wrap',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  paddingTop: 6
-                }}
-              >
-                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  <button className="btn ghost" onClick={() => copyToClipboard(obitDraft)} disabled={readOnly} aria-disabled={readOnly} title={readOnly ? 'Read-only mode' : undefined}>Copy</button>
-                  <button
-                    className="btn secondary"
-                    onClick={() => { if (!readOnly) {/* Placeholder for opening in Word */} }}
-                    title={readOnly ? 'Read-only mode' : 'Open in Microsoft Word'}
-                    aria-label="Edit in Word"
-                    disabled={readOnly}
-                    aria-disabled={readOnly}
-                  >
-                    Edit in Word
-                  </button>
-                  <button className="btn ghost" onClick={() => !readOnly && setObitDraft(obitDraft + '\n\n[Regenerated variation…]')} disabled={readOnly} aria-disabled={readOnly} title={readOnly ? 'Read-only mode' : undefined}>
-                    Regenerate
-                  </button>
-                </div>
-                <div className="helper" style={{ marginLeft: 'auto' }}>
-                  AI content is a suggested draft. Please review for accuracy before publishing.
-                </div>
-              </div>
-            </div>
+            {/* New AI Generated Obituary panel using theme tokens */}
+            <ObituaryPanel />
 
             {/* Action Items with optional count badge */}
             <div className="card panel ai-assist-card" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>

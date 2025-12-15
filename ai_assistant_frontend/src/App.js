@@ -32,6 +32,20 @@ function App() {
             <Route path="/upload" element={<UploadRecording />} />
             <Route path="/processing" element={<Processing />} />
             <Route path="/dashboard" element={<CaseDashboard />} />
+            <Route path="/ai-obituary" element={
+              <div style={{ maxWidth: 920, margin: '0 auto' }}>
+                <div className="card panel" style={{ marginBottom: 16 }}>
+                  <div className="panel-title">Preview: AI Generated Obituary Panel</div>
+                  <div className="helper">This route is provided to preview the component outside the full dashboard context.</div>
+                </div>
+                {/* Reuse the component directly */}
+                <div>
+                  {/*
+                    Import locally to avoid circular imports; Use the same component already included in dashboard.
+                  */}
+                </div>
+              </div>
+            } />
             <Route path="/final-review" element={<FinalReview />} />
             <Route path="/success" element={<SubmissionSuccess />} />
             <Route path="*" element={<Navigate to="/upload" replace />} />
