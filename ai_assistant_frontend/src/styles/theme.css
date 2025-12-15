@@ -145,6 +145,9 @@ a {
   align-items: start; /* align from top */
   gap: 20px;
 }
+.grid-2-7030 > aside {
+  position: relative; /* allow sticky children */
+}
 
 /* Tabs styling - neutral, compact */
 .tabs {
